@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  nginx:
+    image: 'hosseindockerhub/speech_to_text_nginx:latest'
+    container_name: nginx
+    ports:
+      - '80:80'
+    networks:
+      - app-proxy
+  app:
+    image: 'hosseindockerhub/speech_to_text:latest'
+    deploy:
+      mode: replicated
+      replicas: 2
+      endpoint_mode: vip
+    networks:
+      - app-proxy
+volumes:
+  db-data:
+networks:
+  app-db:
+  app-ui:
+  app-proxy:
