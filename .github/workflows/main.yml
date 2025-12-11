@@ -17,5 +17,5 @@ jobs:
         # This step is needed if you didn't make the file executable locally
 
       - name: Run the build and push script
-        run: ./build_and_push.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+        run: ./build_push_images.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
         # Pass arguments to the script: USERNAME, PASSWORD
