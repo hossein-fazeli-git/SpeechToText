@@ -6,6 +6,7 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17
 WORKDIR /app
+COPY src/main/resources /tmp/vosk/resources
 COPY --from=build /app/target/SpeechToText-0.0.1-SNAPSHOT.jar .
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "SpeechToText-0.0.1-SNAPSHOT.jar"]
+# ENTRYPOINT ["java", "-jar", "SpeechToText-0.0.1-SNAPSHOT.jar"]
