@@ -32,8 +32,6 @@ public class SpeechToTextApplication {
 
     @Bean(name = "voskModel")
     public Model getVoskModel() throws Exception{
-//        String modelPath = getClass().getClassLoader().getResource("vosk-model").getPath();
-//        log.info("MODEL Path is ==>> {}", modelPath);
         Model model = new Model("/tmp/vosk-model");
         return model;
     }
