@@ -33,17 +33,25 @@ jobs:
           file: ./src/main/nginx/Dockerfile # Specify the Dockerfile path
           push: true # Enable the push to the registry
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text_nginx:latest # Tag the image
-      - name: Deploy to remote server via SSH
-        uses: appleboy/ssh-action@v1.0.3 # A popular action for running commands over SSH
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22 # Default SSH port
-          script: |
-            # Navigate to your application directory on the server
-            ls
-            cd /SpeechToText
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-            # Pull the latest images and restart containers
-            ./Deployment.sh
+    - name: Set permissions for private key
+      run: |
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+        chmod 600 key.pem
+
+    - name: Pull Docker image and run container on EC2
+      run: |
+        # SSH into EC2 instance and run deployment commands
+        ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} '
+          docker stop $(docker ps -a -q)
+          docker rm $(docker ps -a -q)
+          docker rmi $(docker images -a -q)
+          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text:latest
+          docker pull hosseindockerhub/speech_to_text_nginx:latest
+        '
