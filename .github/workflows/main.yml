@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Alternative approach: use official Docker actions (recommended)
+      - name: Use official Docker actions (recommended)
         # For more robust CI/CD, using dedicated actions is often simpler
         uses: docker/login-action@v3
         with:
