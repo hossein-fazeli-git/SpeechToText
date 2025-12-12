@@ -53,5 +53,5 @@ jobs:
           docker rm $(docker ps -a -q)
           docker rmi $(docker images -a -q)
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text:latest
-          docker pull hosseindockerhub/speech_to_text_nginx:latest
+          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text_nginx:latest
         '
