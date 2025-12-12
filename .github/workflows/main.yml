@@ -13,19 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and start containers
-        run: docker compose up -d --build
-
-      - name: Wait for containers to be healthy
-        uses: peter-evans/docker-compose-healthcheck@v4
-        with:
-          compose-file: 'docker-compose.yml'
-          max-retries: 10
-          retry-interval: 5s # Adjust based on your service startup time
-
+      - name: Start services and wait for health check
+        run: docker compose up --detach --wait --wait-timeout 60
+        
       # - name: Run tests (only after services are healthy)
       #   run: ./run_tests.sh # Replace with your actual test command
 
