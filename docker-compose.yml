@@ -11,7 +11,7 @@ services:
     image: 'hosseindockerhub/speech_to_text:latest'
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
       endpoint_mode: vip
     networks:
       - app-proxy
