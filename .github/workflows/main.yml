@@ -23,6 +23,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: . # Use the root directory as the build context
-          file: ./ # Specify the Dockerfile path
+          file: ./Dockerfile # Specify the Dockerfile path
           push: true # Enable the push to the registry
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text:latest # Tag the image
