@@ -1,5 +1,7 @@
 package com.stt.speechtotext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +17,8 @@ import org.springframework.core.io.Resource;
 @ComponentScan("com.stt")
 public class SpeechToTextApplication {
 
+    private static final Logger log = LoggerFactory.getLogger(SpeechToTextApplication.class);
+
     public static void main(String[] args) {
 		SpringApplication.run(SpeechToTextApplication.class, args);
 	}
@@ -28,8 +32,9 @@ public class SpeechToTextApplication {
 
     @Bean(name = "voskModel")
     public Model getVoskModel() throws Exception{
-        String modelPath = getClass().getClassLoader().getResource("vosk-model").getPath();
-        Model model = new Model(modelPath);
+//        String modelPath = getClass().getClassLoader().getResource("vosk-model").getPath();
+//        log.info("MODEL Path is ==>> {}", modelPath);
+        Model model = new Model("/tmp/vosk-model");
         return model;
     }
 
