@@ -55,3 +55,5 @@ jobs:
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text:latest
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text_nginx:latest
         '
+    - name: Run docker compose stack
+      run: docker compose -f ./docker-compose.yml up -d
