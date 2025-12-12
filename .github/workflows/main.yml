@@ -6,19 +6,38 @@ on:
       - main
 
 jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and start containers
+        run: docker compose up -d --build
+
+      - name: Wait for containers to be healthy
+        uses: peter-evans/docker-compose-healthcheck@v2
+        with:
+          compose-file: 'docker-compose.yml'
+          max-retries: 10
+          retry-interval: 5s # Adjust based on your service startup time
+
+      # - name: Run tests (only after services are healthy)
+      #   run: ./run_tests.sh # Replace with your actual test command
+
+      - name: Clean up containers
+        if: always()
+        run: docker compose down
   build-and-push:
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set up JDK
-        uses: actions/setup-java@v4 # Use a current version of setup-java
-        with:
-          java-version: '17' # Specify your Java version
-          distribution: 'temurin'
-          cache: maven # Caches Maven dependencies for faster subsequent runs
-      - name: Build and run tests with Maven
-        run: mvn clean verify # 'verify' lifecycle goal runs all tests and checks results
       - name: Log in to Docker Hub
         # For more robust CI/CD, using dedicated actions is often simpler
         uses: docker/login-action@v3
