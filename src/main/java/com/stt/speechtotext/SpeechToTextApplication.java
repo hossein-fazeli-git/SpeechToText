@@ -25,7 +25,7 @@ public class SpeechToTextApplication {
 
     @Bean(name = "voskModel")
     public Model getVoskModel() throws Exception{
-        Model model = new Model("src/main/resources/vosk-model");
+        Model model = new Model("src/main/java/com/stt/speechtotext/vosk-model");
         return model;
     }
 
