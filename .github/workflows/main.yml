@@ -33,4 +33,17 @@ jobs:
           file: ./src/main/nginx/Dockerfile # Specify the Dockerfile path
           push: true # Enable the push to the registry
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text_nginx:latest # Tag the image
+      - name: Deploy to remote server via SSH
+        uses: appleboy/ssh-action@v1.0.3 # A popular action for running commands over SSH
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22 # Default SSH port
+          script: |
+            # Navigate to your application directory on the server
+            ls
+            cd /SpeechToText
 
+            # Pull the latest images and restart containers
+            ./Deployment.sh
