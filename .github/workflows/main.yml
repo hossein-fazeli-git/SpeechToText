@@ -18,11 +18,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
-      - name: Make script executable
-        run: chmod +x build_push_images.sh
-        # This step is needed if you didn't make the file executable locally
 
-      - name: Run the build and push script
-        run: ./build_push_images.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
-        # Pass arguments to the script: USERNAME, PASSWORD
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # Use the root directory as the build context
+          file: ./ # Specify the Dockerfile path
+          push: true # Enable the push to the registry
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text:latest # Tag the image
+          cache-from: type=gha,scope=${{ github.ref }} # Use GitHub Actions cache for layers
+          cache-to: type=gha,mode=max,scope=${{ github.ref }} # Store cache for future run
