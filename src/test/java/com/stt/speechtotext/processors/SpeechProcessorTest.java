@@ -12,11 +12,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import org.vosk.Recognizer;
+
+import javax.sound.sampled.AudioInputStream;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -38,9 +43,11 @@ public class SpeechProcessorTest {
     public void testSuccessfulAudioProcessing() throws Exception{
         try (MockedStatic<CommonUtils> mockedStatic = Mockito.mockStatic(CommonUtils.class)) {
             mockedStatic.when(() -> CommonUtils.getTextValueFromResult(anyString())).thenReturn("Parsed Input");
-            byte[] validWavBytes;
-            validWavBytes = Files.readAllBytes(Paths.get("src/test/resources/sample_audio.wav"));
-            InputStream mockInputStream = new ByteArrayInputStream(validWavBytes);
+            AudioInputStream mockStream = mock(AudioInputStream.class);
+//            byte[] validWavBytes;
+//            validWavBytes = Files.readAllBytes(Paths.get("src/test/resources/sample_audio.wav"));
+            InputStream mockInputStream = getClass().getClassLoader().getResourceAsStream("sample_audio.wav");
+            //InputStream mockInputStream = new ByteArrayInputStream("validWavBytes");
             MultipartFile mockMultipartFile = Mockito.mock(MultipartFile.class);
             when(mockMultipartFile.getOriginalFilename()).thenReturn("sample_audio.wav");
             when(mockMultipartFile.getInputStream()).thenReturn(mockInputStream);
@@ -59,5 +66,4 @@ public class SpeechProcessorTest {
             ResponseEntity<String> response = speechProcessor.convertSpeechToText(mockMultipartFile);
             Assertions.assertEquals(response.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }
