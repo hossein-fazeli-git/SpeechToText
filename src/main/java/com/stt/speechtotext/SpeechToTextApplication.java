@@ -15,10 +15,7 @@ import org.springframework.core.io.Resource;
 @ComponentScan("com.stt")
 public class SpeechToTextApplication {
 
-    @Value("${vosk.resource.folder.path}")
-    private Resource resourceFile;
-
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 		SpringApplication.run(SpeechToTextApplication.class, args);
 	}
 
@@ -31,7 +28,8 @@ public class SpeechToTextApplication {
 
     @Bean(name = "voskModel")
     public Model getVoskModel() throws Exception{
-        Model model = new Model(resourceFile.getFilename());
+        String modelPath = getClass().getClassLoader().getResource("vosk-model").getPath();
+        Model model = new Model(modelPath);
         return model;
     }
 
