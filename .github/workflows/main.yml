@@ -40,6 +40,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Copy files to EC2 via SCP
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "docker-compose.yml, .env, app-folder" # Comma-separated list of files/folders to copy
+        target: "/home/${{ secrets.EC2_USERNAME }}/app" # Destination path on the EC2 instance
+
     - name: Set permissions for private key
       run: |
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
@@ -54,6 +63,8 @@ jobs:
           docker rmi $(docker images -a -q)
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text:latest
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text_nginx:latest
+          cd /home/${{ secrets.EC2_USERNAME }}/app
+          docker compose up
         '
     - name: Run docker compose stack
       run: docker compose -f ./docker-compose.yml up -d
