@@ -26,5 +26,3 @@ jobs:
           file: ./ # Specify the Dockerfile path
           push: true # Enable the push to the registry
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text:latest # Tag the image
-          cache-from: type=gha,scope=${{ github.ref }} # Use GitHub Actions cache for layers
-          cache-to: type=gha,mode=max,scope=${{ github.ref }} # Store cache for future run
