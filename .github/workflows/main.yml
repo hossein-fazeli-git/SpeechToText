@@ -32,5 +32,5 @@ jobs:
           context: ./src/main/nginx # Use the root directory as the build context
           file: ./src/main/nginx/Dockerfile # Specify the Dockerfile path
           push: true # Enable the push to the registry
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text:latest # Tag the image
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/speech_to_text_nginx:latest # Tag the image
 
