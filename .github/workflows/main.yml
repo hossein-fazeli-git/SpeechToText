@@ -66,5 +66,3 @@ jobs:
           cd /home/${{ secrets.EC2_USERNAME }}/app
           sudo docker compose up
         '
-    - name: Run docker compose stack
-      run: docker compose -f ./docker-compose.yml up -d
