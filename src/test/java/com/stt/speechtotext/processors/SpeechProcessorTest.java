@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+import org.vosk.Model;
 import org.vosk.Recognizer;
 
 import javax.sound.sampled.AudioInputStream;
@@ -27,6 +28,9 @@ import java.nio.file.Paths;
 
 @ExtendWith(MockitoExtension.class)
 public class SpeechProcessorTest {
+
+    @Mock
+    Model model;
 
     @Mock
     Recognizer recognizer;
