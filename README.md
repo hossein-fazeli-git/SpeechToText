@@ -9,7 +9,10 @@ This API will only accept WAV format with 16hz frequency. The size limit is set 
 RESOURCE:
 ---------
 GitHub: https://github.com/hossein-fazeli-git/SpeechToText
+In case you need to push any changes to this github repo please use the following creds: 
 
+Username: hossein-fazeli-git
+Password: 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
 
 CI/CD APPROACH:
 ---------------
