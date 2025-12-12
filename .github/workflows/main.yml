@@ -20,7 +20,7 @@ jobs:
         run: docker compose up -d --build
 
       - name: Wait for containers to be healthy
-        uses: peter-evans/docker-compose-healthcheck@v2
+        uses: peter-evans/docker-compose-healthcheck@v4
         with:
           compose-file: 'docker-compose.yml'
           max-retries: 10
