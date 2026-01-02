@@ -21,7 +21,7 @@ public class ApplicationExceptionHandler {
         // Customize your error message here
         errorResponse.put("timestamp", String.valueOf(System.currentTimeMillis()));
         errorResponse.put("status", HttpStatus.PAYLOAD_TOO_LARGE.toString());
-        errorResponse.put("message", "File upload size exceeded the allowed limit (e.g., 1MB). Please choose a smaller file.");
+        errorResponse.put("message", "File upload size exceeded the allowed limit (e.g., 2MB). Please choose a smaller file.");
 
         return new ResponseEntity<>(errorResponse, HttpStatus.PAYLOAD_TOO_LARGE);
     }
